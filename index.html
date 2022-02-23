@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle</title>
+    <style>
+        .input {
+            width: 50px;
+            height:50px;
+            text-align: center;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div id="guess">
+        <div class="line"><input type="text" class="input"><input type="text" class="input"><input type="text" class="input"><input type="text" class="input"><input type="text" class="input"></div>
+    </div>
+    <button id="submit">제출</button>
+    <script src="./five.js"></script>
+    <script>
+        const answer = choose(five_letter)
+        let idx = 0
+        document.getElementById("submit").addEventListener("click", function() {
+            let words = document.querySelectorAll(".line")[idx].childNodes
+            let incorrect = false
+            for (i=0;i<5;i++) {
+                if (answer[i] == words[i].value.toLowerCase()) {
+                    words[i].style.backgroundColor = "yellowgreen"
+                } else if (words[i].value.toLowerCase() == "") {
+                    words[i].style.backgroundColor = "lightgrey"
+                    incorrect = true
+                } else if (answer.includes(words[i].value.toLowerCase())) {
+                    words[i].style.backgroundColor = "yellow"
+                    incorrect = true
+                } else {
+                    words[i].style.backgroundColor = "lightgrey"
+                    incorrect = true
+                }
+            }
+
+            if (incorrect) {
+                let line = document.createElement("div")
+                line.classList.add("line")
+                line.className = "line " + line.className
+                document.getElementById("guess").appendChild(line)
+                for (i=0;i<5;i++) {
+                    let input = document.createElement("input")
+                    input.classList.add("input")
+                    input.className = "input " + input.className
+                    line.appendChild(input)
+                }
+                idx++;
+            } else {
+                alert("정답을 맞추셨습니다!\n정답 : "+answer+"\n시도 횟수 : "+(idx+1) )
+            }
+        })
+    </script>
+</body>
+</html>
